@@ -2,28 +2,10 @@
 
 import { useContext } from 'react'
 
-import { complete } from '../actions/conversation.js'
+import { complete } from '@/actions/conversation'
 
 import { ChatInput, ConversationContext } from '@chatbotkit/react'
 import ConversationManager from '@chatbotkit/react/components/ConversationManager'
-
-// This is a stateless example of how to use the ChatbotKit React components in
-// a Next.js application. We use the ConversationContext and AutoTextarea
-// component to render the user input field.
-//
-// Here we use the ConversationManager component to manage the conversation
-// state. The difference here is that ConversationManager exposes a context that
-// can be reused by any component inside the tree.
-//
-// The ConversationContext manages the entire conversation state including the
-// messages, the input text and all calls to the local API endpoint.
-//
-// The ChatInput component is a textarea that automatically resizes to fit the
-// content and also handles the enter key to submit the message.
-//
-// Unlike other examples, this example also renders the children of the bot
-// messages if they are available. This is useful for rendering rich content
-// like buttons or other components.
 
 export function ChatMessages() {
   const {
@@ -37,9 +19,6 @@ export function ChatMessages() {
 
     submit,
   } = useContext(ConversationContext)
-
-  // Our renderer is quite basic. We simply iterate over the messages and render
-  // them accordingly. We also use our own AutoTextarea for the user input.
 
   return (
     <div>

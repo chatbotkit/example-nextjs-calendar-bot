@@ -2,7 +2,6 @@
   "name": "example-nextjs-calendar-bot",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@chatbotkit/react": "^1.8.0",
+    "@chatbotkit/react": "^1.8.1",
     "@chatbotkit/sdk": "^1.8.0",
     "next": "14.1.4",
     "react": "^18",
@@ -20,9 +19,12 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "20.11.30",
+    "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "postcss": "^8",
     "prettier": "^3.2.5",
+    "tailwindcss": "^3.3.0",
     "typescript": "^5.4.3"
   }
 }
