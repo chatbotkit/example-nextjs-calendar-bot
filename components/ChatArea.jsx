@@ -24,6 +24,8 @@ export function ChatMessages() {
     <div>
       <div>
         {messages.map(({ id, type, text, children }, index) => {
+          const isLast = index === messages.length - 1
+
           switch (type) {
             case 'user':
               return (
@@ -40,7 +42,7 @@ export function ChatMessages() {
                   <div>
                     <strong>bot:</strong> {text}
                   </div>
-                  {children ? <div>{children}</div> : null}
+                  {isLast && children ? <div>{children}</div> : null}
                 </div>
               )
           }
