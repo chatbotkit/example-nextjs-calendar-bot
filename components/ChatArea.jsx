@@ -2,12 +2,37 @@
 
 import { useContext } from 'react'
 
-import { complete } from '@/actions/conversation'
-
 import { ChatInput, ConversationContext } from '@chatbotkit/react'
-import ConversationManager from '@chatbotkit/react/components/ConversationManager'
 
-export function ChatMessages() {
+import clsx from 'clsx'
+
+export function UserMessage({ text, children, ...props }) {
+  return (
+    <div {...props} className="flex space-x-2 items-end justify-end">
+      {text ? (
+        <div className="bg-blue-500 rounded-lg text-white shadow-md p-4">
+          <p>{text}</p>
+        </div>
+      ) : null}
+      {children}
+    </div>
+  )
+}
+
+export function BotMessage({ text, children, ...props }) {
+  return (
+    <div {...props} className="flex space-x-2 items-end">
+      {text ? (
+        <div className="bg-white rounded-lg shadow-md p-4">
+          <p>{text}</p>
+        </div>
+      ) : null}
+      {children}
+    </div>
+  )
+}
+
+export default function ChatArea() {
   const {
     thinking,
 
@@ -21,48 +46,42 @@ export function ChatMessages() {
   } = useContext(ConversationContext)
 
   return (
-    <div>
-      <div>
-        {messages.map(({ id, type, text, children }, index) => {
-          const isLast = index === messages.length - 1
+    <div className="rounded-lg border text-card-foreground shadow-sm bg-gray-100 p-4 flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
+        {messages
+          .filter(({ type }) => ['user', 'bot'].includes(type))
+          .map(({ id, type, text, children }, index, messages) => {
+            const isLast = index >= messages.length - 2
 
-          switch (type) {
-            case 'user':
-              return (
-                <div key={id || index}>
-                  <div>
-                    <strong>user:</strong> {text}
-                  </div>
-                </div>
-              )
+            switch (type) {
+              case 'user':
+                return <UserMessage key={id} text={text} />
 
-            case 'bot':
-              return (
-                <div key={id || index}>
-                  <div>
-                    <strong>bot:</strong> {text}
-                  </div>
-                  {isLast && children ? <div>{children}</div> : null}
-                </div>
-              )
-          }
-        })}
-        {message ? (
-          <div key={message.id}>
-            <strong>bot:</strong> {message.text}
-          </div>
-        ) : null}
-        {thinking ? (
-          <div key="thinking">
-            <strong>bot:</strong> thinking...
-          </div>
-        ) : null}
+              case 'bot':
+                return (
+                  <BotMessage key={id} text={text}>
+                    {children ? (
+                      <div
+                        className={clsx({
+                          'opacity-40 pointer-events-none': !isLast,
+                        })}
+                      >
+                        {children}
+                      </div>
+                    ) : null}
+                  </BotMessage>
+                )
+            }
+          })}
+        {message ? <BotMessage key={message.id} text={message.text} /> : null}
+        {thinking ? <BotMessage key="thinking" text="● ● ●" /> : null}
       </div>
       <ChatInput
+        className="rounded-md border border-gray-100 bg-white px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         value={text}
         onChange={(e) => setText(e.target.value)}
         onSubmit={submit}
-        placeholder="Type something..."
+        placeholder="Your message..."
         style={{
           border: 0,
           outline: 'none',
@@ -72,13 +91,5 @@ export function ChatMessages() {
         }}
       />
     </div>
-  )
-}
-
-export default function ChatArea() {
-  return (
-    <ConversationManager endpoint={complete}>
-      <ChatMessages />
-    </ConversationManager>
   )
 }

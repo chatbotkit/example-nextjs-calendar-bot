@@ -27,24 +27,29 @@ export async function complete({ messages }) {
 Today's date is 2024-03-01.
 
 RULES:
+- Always great the user by explaining your purpose.
 - Only book appointments between 11am and 5pm.
 - Ensure that Dr. Smith has at least 30 minutes between appointments.
 - Dr. Smith can only have a maximum of 3 appointments per day.
 - Dr. Smith can only have a maximum of 5 appointments per week.
 - Dr. Smith can only have a maximum of 10 appointments per month.
+- Each appointment is 30 minutes long.
 - Be brief and to the point.
 - Do not ask for unnecessary information or repeat yourself.
 - Do not disclose Dr. Smith's calendar to the user, only show available slots.
+- Only show up-to 4 available slots at a time.
 
 STEPS:
-1. Great the user by explaining your purpose.
-2. Try to find a suitable slot for booking an appointment.
+0. Great the user by explaining your purpose if you haven't done so already.
+1. Try to find a suitable slot for booking an appointment.
  - Use the getCalendar function to get a list of the current calendar events.
  - Describe the calendar events to the user.
  - Use the showAvailaibilitySlotsForm function to show available slots for booking an appointment.
 2. Ensure that the new appointment is within the rules.
 3. Capture the name and email of the person booking the appointment with the capture details form.
-4. Book the appointment.
+4. Finally book the appointment.
+5. Explain the appointment details to the user.
+6. Warn that a confirmation email will be sent to the user.
 
 Failure to follow these rules will result in a decline of the appointment and customer dissatisfaction.`,
 
@@ -61,7 +66,10 @@ Failure to follow these rules will result in a decline of the appointment and cu
         handler: async () => {
           return {
             result: {
-              calendar,
+              status: 'success',
+              data: {
+                calendar,
+              },
             },
           }
         },
@@ -103,12 +111,14 @@ Failure to follow these rules will result in a decline of the appointment and cu
         handler: async ({ slots }) => {
           return {
             children: <AvailabilitySlotsForm slots={slots} />,
+            result: {
+              status: 'success',
+            },
           }
         },
       },
 
       // This function will be called to capture the slot for booking an appointment.
-
       {
         name: 'captureSlot',
         description: 'Capture the slot for booking an appointment.',
@@ -134,9 +144,12 @@ Failure to follow these rules will result in a decline of the appointment and cu
         handler: async ({ day, time, duration }) => {
           return {
             result: {
-              day,
-              time,
-              duration,
+              status: 'success',
+              data: {
+                day,
+                time,
+                duration,
+              },
             },
           }
         },
@@ -144,13 +157,16 @@ Failure to follow these rules will result in a decline of the appointment and cu
 
       // This function will be called to show a form to capture the name and email of the person booking the appointment.
       {
-        name: 'showCaptureDetailsForm',
+        name: 'showDetailsForm',
         description:
           'Shows a form to capture the name and email of the person booking the appointment.',
         parameters: {},
         handler: async () => {
           return {
             children: <CaptureDetailsForm />,
+            result: {
+              status: 'success',
+            },
           }
         },
       },
@@ -175,8 +191,11 @@ Failure to follow these rules will result in a decline of the appointment and cu
         handler: async ({ name, email }) => {
           return {
             result: {
-              name,
-              email,
+              status: 'success',
+              data: {
+                name,
+                email,
+              },
             },
           }
         },
@@ -185,7 +204,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
       // This is the final function that will be called to book the appointment.
       {
         name: 'bookAppointment',
-        description: 'Book an appointment.',
+        description: 'Book the appointment.',
         parameters: {
           type: 'object',
           properties: {
@@ -208,10 +227,18 @@ Failure to follow these rules will result in a decline of the appointment and cu
           required: ['date', 'time', 'duration', 'name', 'email'],
         },
         handler: async ({ date, time, duration, name, email }) => {
-          name
-          email
-
           calendar.push({ id: calendar.length + 1, date, time, duration })
+
+          return {
+            result: {
+              status: 'success',
+              data: {
+                date,
+                time,
+                duration,
+              },
+            },
+          }
         },
       },
     ],

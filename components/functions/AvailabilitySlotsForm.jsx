@@ -21,7 +21,7 @@ export default function AvailabilitySlotsForm({ slots }) {
         return (
           <div
             key={index}
-            className="border border-gray-200 rounded-xl p-2 cursor-pointer"
+            className="bg-white hover:shadow-md hover:transform hover:-translate-y-0.5 rounded-xl p-4 cursor-pointer transition-all duration-300 ease-in-out"
             onClick={captureSlot.bind(null, slot)}
           >
             {day} at {time} for {duration} minutes
