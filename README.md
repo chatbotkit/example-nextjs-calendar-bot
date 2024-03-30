@@ -18,8 +18,8 @@ This repository contains the code for an appointment scheduling chatbot designed
 1. Ensure you have Node.js installed.
 2. Clone this repository.
 3. Install dependencies by running npm install.
-4. Set the CHATBOTKIT_API_SECRET environment variable with your ChatBotKit API secret.
-5. Optionally, set the CHATBOTKIT_MODEL environment variable to specify the model used for conversation (default is GPT-3.5 Turbo).
+4. Set the `CHATBOTKIT_API_SECRET` environment variable with your ChatBotKit API secret.
+5. Optionally, set the `CHATBOTKIT_MODEL` environment variable to specify the model used for conversation (default is GPT-3.5 Turbo).
 
 ## Usage
 
