@@ -1,7 +1,7 @@
 'use server'
 
-import AvailabilitySlotsForm from '@/components/functions/AvailabilitySlotsForm'
 import CaptureDetailsForm from '@/components/functions/CaptureDetailsForm'
+import SlowSelectionForm from '@/components/functions/SlotSelectionForm'
 
 import { streamComplete } from '@chatbotkit/react/actions/complete'
 import { ChatBotKit } from '@chatbotkit/sdk'
@@ -34,12 +34,11 @@ RULES:
 - Dr. Smith can only have a maximum of 5 appointments per week.
 - Dr. Smith can only have a maximum of 10 appointments per month.
 - Each appointment is 30 minutes long.
+- Only show up-to 4 available slots at a time.
+- You can only book appointments 1 month in advance.
+- Do not disclose Dr. Smith's calendar to the user, only show available slots.
 - Be brief and to the point.
 - Do not ask for unnecessary information or repeat yourself.
-- Do not disclose Dr. Smith's calendar to the user, only show available slots.
-- Only show up-to 4 available slots at a time.
-- The form functions must be last in the order of the conversation.
-- Do not confirm status messages that start with "waiting for user input".
 
 STEPS:
 1. Great the user by explaining your purpose if you haven't done so already.
@@ -52,6 +51,8 @@ STEPS:
 5. Finally book the appointment.
 6. Explain the appointment details to the user.
 7. Warn that a confirmation email will be sent to the user.
+
+You have acccess to a number of UI functions to help you with getting information from the user. These function start with the prefix "show". The UI functions will display and interactive form to the user where user input is expected.
 
 Failure to follow these rules will result in a decline of the appointment and customer dissatisfaction.`,
 
@@ -79,8 +80,8 @@ Failure to follow these rules will result in a decline of the appointment and cu
 
       // This function will be called to show available slots for booking an appointment.
       {
-        name: 'showSlotForm',
-        description: 'Show available slots for booking an appointment.',
+        name: 'showSlotSelectionForm',
+        description: 'Show slots selection form for booking an appointment.',
         parameters: {
           type: 'object',
           properties: {
@@ -92,7 +93,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
                   slot: {
                     type: 'string',
                     description:
-                      'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "2024-03-01 11:00 - 11:30".',
+                      'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "March 20th 11:00 - 11:30".',
                   },
                 },
                 required: ['slot'],
@@ -101,9 +102,11 @@ Failure to follow these rules will result in a decline of the appointment and cu
           },
           required: ['slots'],
         },
-        handler: async ({ slots }) => {
+        handler: async ({ slots }, { controllers }) => {
+          controllers.continuation.abort()
+
           return {
-            children: <AvailabilitySlotsForm slots={slots} />,
+            children: <SlowSelectionForm slots={slots} />,
             result: {
               status: 'waiting for user input',
             },
@@ -121,7 +124,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
             slot: {
               type: 'string',
               description:
-                'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "2024-03-01 11:00 - 11:30".',
+                'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "March 20th 11:00 - 11:30".',
             },
           },
           required: ['date', 'time', 'duration'],
@@ -140,11 +143,13 @@ Failure to follow these rules will result in a decline of the appointment and cu
 
       // This function will be called to show a form to capture the name and email of the person booking the appointment.
       {
-        name: 'showDetailsForm',
+        name: 'showContactDetailsForm',
         description:
           'Shows a form to capture the name and email of the person booking the appointment.',
         parameters: {},
-        handler: async () => {
+        handler: async (_, { controllers }) => {
+          controllers.continuation.abort()
+
           return {
             children: <CaptureDetailsForm />,
             result: {

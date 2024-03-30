@@ -53,7 +53,7 @@ export default function ChatArea() {
         {messages
           .filter(({ type }) => ['user', 'bot'].includes(type))
           .map(({ id, type, text, children }, index, messages) => {
-            const isLast = index >= messages.length - 2
+            const disableInteractivity = index < messages.length - 1
 
             switch (type) {
               case 'user':
@@ -65,9 +65,10 @@ export default function ChatArea() {
                     {children ? (
                       <div
                         className={clsx(
-                          'transition-all duration-300 ease-in-out',
+                          'transition-all duration-300 ease-in-out w-full max-w-md',
                           {
-                            'opacity-40 pointer-events-none': !isLast,
+                            'opacity-40 pointer-events-none':
+                              disableInteractivity,
                           }
                         )}
                       >

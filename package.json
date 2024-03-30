@@ -10,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@chatbotkit/react": "^1.8.1",
+    "@chatbotkit/react": "^1.8.2",
     "@chatbotkit/sdk": "^1.8.0",
     "clsx": "^2.1.0",
     "next": "14.1.4",
