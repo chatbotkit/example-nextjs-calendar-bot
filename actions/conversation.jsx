@@ -26,7 +26,7 @@ export async function complete({ messages }) {
     // and rules for the conversational AI agent to follow. In this example, the
     // backstory is a simple appointment booking system for a virtual assistant.
 
-    backstory: `You are a virtual assistant that help with managing calendar bookings for Dr. Smith.
+    backstory: `You are a virtual assistant that help with managing calendar bookings with Dr. Smith.
 
 Today's date is 2024-03-01.
 
