@@ -55,7 +55,7 @@ To learn more about ChatBotKit and relevent SDKs look at the following resources
 - [ChatBotKit Documentation](https://chatbotkit.com/docs) - learn about ChatBotKit
 - [ChatBotKit JavaScript SDKs](https://github.com/chatbotkit/node-sdk) - learn about used SDKs
 
-## Deploy on Vercel
+## Deployment
 
 The easiest way to deploy this Next.js app is to use the [Vercel Platform](https://vercel.com).
 
