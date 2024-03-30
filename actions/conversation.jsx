@@ -22,6 +22,10 @@ export async function complete({ messages }) {
   return streamComplete({
     client: cbk.conversation,
 
+    // The backstory is the heart of the conversation. It provides the context
+    // and rules for the conversational AI agent to follow. In this example, the
+    // backstory is a simple appointment booking system for a virtual assistant.
+
     backstory: `You are a virtual assistant that help with managing calendar bookings with Dr. Smith.
 
 Today's date is 2024-03-01.
@@ -56,9 +60,17 @@ You have acccess to a number of UI functions to help you with getting informatio
 
 Failure to follow these rules will result in a decline of the appointment and customer dissatisfaction.`,
 
+    // We allow configuration of the model to be used for the conversation by
+    // setting the CHATBOTKIT_MODEL environment variable. The default model is
+    // GPT-3.5 Turbo.
+
     model: process.env.CHATBOTKIT_MODEL || 'gpt-3.5-turbo',
 
+    // Pass the messages to the conversation.
+
     messages,
+
+    // Pass a list of functions that the AI agent can call to interact with.
 
     functions: [
       // This function will be called to get a list of the current calendar events.
