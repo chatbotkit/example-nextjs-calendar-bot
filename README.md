@@ -2,6 +2,8 @@
 
 This repository contains the code for an appointment scheduling chatbot designed to assist in managing calendar bookings. The chatbot, built with the ChatBotKit SDK, facilitates the booking of appointments following specific rules and guidelines to ensure an efficient and conflict-free scheduling process.
 
+https://github.com/chatbotkit/example-nextjs-calendar-bot/assets/5363404/3aaf362f-3dc4-4b11-93dd-f14248309059
+
 ## Features
 
 - **Appointment Scheduling**: Users can schedule appointments within predefined time slots, ensuring adherence to the specified availability and rules set for Dr. Smith.
