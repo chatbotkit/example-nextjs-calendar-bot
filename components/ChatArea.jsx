@@ -2,7 +2,7 @@
 
 import { useContext } from 'react'
 
-import { ChatInput, ConversationContext } from '@chatbotkit/react'
+import { ChatInput, ChatMessage, ConversationContext } from '@chatbotkit/react'
 
 import clsx from 'clsx'
 
@@ -10,9 +10,10 @@ export function UserMessage({ text, children, ...props }) {
   return (
     <div {...props} className="flex space-x-2 items-end justify-end">
       {text ? (
-        <div className="bg-blue-500 rounded-lg text-white shadow-md p-4">
-          <p>{text}</p>
-        </div>
+        <ChatMessage
+          className="bg-blue-500 rounded-lg text-white shadow-md p-4 prose"
+          text={text}
+        />
       ) : null}
       {children}
     </div>
@@ -23,9 +24,10 @@ export function BotMessage({ text, children, ...props }) {
   return (
     <div {...props} className="flex space-x-2 items-end">
       {text ? (
-        <div className="bg-white rounded-lg shadow-md p-4">
-          <p>{text}</p>
-        </div>
+        <ChatMessage
+          className="bg-white rounded-lg shadow-md p-4 prose"
+          text={text}
+        />
       ) : null}
       {children}
     </div>
