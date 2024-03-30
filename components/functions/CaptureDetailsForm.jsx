@@ -15,7 +15,7 @@ export default function CaptureDetailsForm({ events }) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full max-w-md">
       <p className="text-sm text-gray-600">
         Please provide your name and email to book an appointment:
       </p>

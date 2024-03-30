@@ -66,7 +66,7 @@ export default function ChatArea() {
                       {children ? (
                         <div
                           className={clsx(
-                            'transition-all duration-300 ease-in-out w-full max-w-md',
+                            'transition-all duration-300 ease-in-out w-full',
                             {
                               'opacity-40 pointer-events-none':
                                 disableInteractivity,
