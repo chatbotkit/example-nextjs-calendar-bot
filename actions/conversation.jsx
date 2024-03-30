@@ -49,7 +49,7 @@ STEPS:
 2. Try to find a suitable slot for booking an appointment.
  - Use the getCalendar function to get a list of the current calendar events.
  - Describe the calendar events to the user.
- - Use the showAvailaibilitySlotsForm function to show available slots for booking an appointment.
+ - Use the showSlotSelectionForm function to show available slots for booking an appointment.
 3. Ensure that the new appointment is within the rules.
 4. Capture the name and email of the person booking the appointment with the capture details form.
 5. Finally book the appointment.
