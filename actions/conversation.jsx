@@ -118,7 +118,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
           controllers.continuation.abort()
 
           return {
-            children: <SlowSelectionForm slots={slots} />,
+            children: <SlowSelectionForm slots={slots} />, // MAGIC
             result: {
               status: 'waiting for user input',
             },
@@ -163,7 +163,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
           controllers.continuation.abort()
 
           return {
-            children: <CaptureDetailsForm />,
+            children: <CaptureDetailsForm />, // MAGIC
             result: {
               status: 'waiting for user input',
             },
