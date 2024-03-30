@@ -15,13 +15,13 @@ export default function CaptureDetailsForm({ events }) {
   }
 
   return (
-    <form className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2 w-full">
       <label className="flex flex-col gap-1">
         <input
           type="text"
           name="name"
           placeholder="Name"
-          className="border border-gray-200 rounded-xl p-2 w-full max-w-md"
+          className="rounded-md border border-gray-100 bg-white px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </label>
       <label className="flex flex-col gap-1">
@@ -29,13 +29,13 @@ export default function CaptureDetailsForm({ events }) {
           type="email"
           name="email"
           placeholder="Email"
-          className="border border-gray-200 rounded-xl p-2 w-full max-w-md"
+          className="rounded-md border border-gray-100 bg-white px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
       </label>
       <button
         type="button"
         onClick={captureDetails}
-        className="border border-gray-200 rounded-xl p-2 w-full max-w-md"
+        className="bg-blue-500 hover:bg-blue-600 text-white hover:text-white rounded-md px-3 py-2 focus:outline-none transition-all duration-300 ease-in-out"
       >
         Book Appointment
       </button>

@@ -38,22 +38,24 @@ RULES:
 - Do not ask for unnecessary information or repeat yourself.
 - Do not disclose Dr. Smith's calendar to the user, only show available slots.
 - Only show up-to 4 available slots at a time.
+- The form functions must be last in the order of the conversation.
+- Do not confirm status messages that start with "waiting for user input".
 
 STEPS:
-0. Great the user by explaining your purpose if you haven't done so already.
-1. Try to find a suitable slot for booking an appointment.
+1. Great the user by explaining your purpose if you haven't done so already.
+2. Try to find a suitable slot for booking an appointment.
  - Use the getCalendar function to get a list of the current calendar events.
  - Describe the calendar events to the user.
  - Use the showAvailaibilitySlotsForm function to show available slots for booking an appointment.
-2. Ensure that the new appointment is within the rules.
-3. Capture the name and email of the person booking the appointment with the capture details form.
-4. Finally book the appointment.
-5. Explain the appointment details to the user.
-6. Warn that a confirmation email will be sent to the user.
+3. Ensure that the new appointment is within the rules.
+4. Capture the name and email of the person booking the appointment with the capture details form.
+5. Finally book the appointment.
+6. Explain the appointment details to the user.
+7. Warn that a confirmation email will be sent to the user.
 
 Failure to follow these rules will result in a decline of the appointment and customer dissatisfaction.`,
 
-    model: 'gpt-3.5-turbo',
+    model: process.env.CHATBOTKIT_MODEL || 'gpt-3.5-turbo',
 
     messages,
 
@@ -87,22 +89,13 @@ Failure to follow these rules will result in a decline of the appointment and cu
               items: {
                 type: 'object',
                 properties: {
-                  day: {
+                  slot: {
                     type: 'string',
                     description:
-                      'The day of the week or date if the appointment is in the future.',
-                  },
-                  time: {
-                    type: 'string',
-                    description:
-                      'The time of the appointment in 24-hour format.',
-                  },
-                  duration: {
-                    type: 'number',
-                    description: 'The duration of the appointment in minutes.',
+                      'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "2024-03-01 11:00 - 11:30".',
                   },
                 },
-                required: ['date', 'time', 'duration'],
+                required: ['slot'],
               },
             },
           },
@@ -112,7 +105,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
           return {
             children: <AvailabilitySlotsForm slots={slots} />,
             result: {
-              status: 'success',
+              status: 'waiting for user input',
             },
           }
         },
@@ -125,30 +118,20 @@ Failure to follow these rules will result in a decline of the appointment and cu
         parameters: {
           type: 'object',
           properties: {
-            day: {
+            slot: {
               type: 'string',
               description:
-                'The day of the week or date if the appointment is in the future.',
-            },
-            time: {
-              type: 'string',
-              description: 'The time of the appointment in 24-hour format.',
-            },
-            duration: {
-              type: 'number',
-              description: 'The duration of the appointment in minutes.',
+                'A string representing the day plus time and duration of the slot. The day can be the day of the week (Monday to Friday) or date if the appointment is in the future. For example, "Monday 11:00 - 11:30" or "2024-03-01 11:00 - 11:30".',
             },
           },
           required: ['date', 'time', 'duration'],
         },
-        handler: async ({ day, time, duration }) => {
+        handler: async ({ slot }) => {
           return {
             result: {
-              status: 'success',
+              status: slot ? 'success' : 'failure',
               data: {
-                day,
-                time,
-                duration,
+                slot,
               },
             },
           }
@@ -165,7 +148,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
           return {
             children: <CaptureDetailsForm />,
             result: {
-              status: 'success',
+              status: 'waiting for user input',
             },
           }
         },
@@ -191,7 +174,7 @@ Failure to follow these rules will result in a decline of the appointment and cu
         handler: async ({ name, email }) => {
           return {
             result: {
-              status: 'success',
+              status: name && email ? 'success' : 'failure',
               data: {
                 name,
                 email,

@@ -64,9 +64,12 @@ export default function ChatArea() {
                   <BotMessage key={id} text={text}>
                     {children ? (
                       <div
-                        className={clsx({
-                          'opacity-40 pointer-events-none': !isLast,
-                        })}
+                        className={clsx(
+                          'transition-all duration-300 ease-in-out',
+                          {
+                            'opacity-40 pointer-events-none': !isLast,
+                          }
+                        )}
                       >
                         {children}
                       </div>
