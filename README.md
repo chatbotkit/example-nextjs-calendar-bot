@@ -1,3 +1,5 @@
+[![Demo](https://img.shields.io/badge/live-demo-blue.svg)]([https://chatbotkit.com](https://chatbotkit-example-calendar-bot.vercel.app))
+
 # Appointment Scheduling Bot
 
 This repository contains the code for an appointment scheduling chatbot designed to assist in managing calendar bookings. The chatbot, built with the ChatBotKit SDK, facilitates the booking of appointments following specific rules and guidelines to ensure an efficient and conflict-free scheduling process.
